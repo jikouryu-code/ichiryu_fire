@@ -2664,8 +2664,7 @@ with col2:
     st.markdown(f"**{L['sub']}**")
 
     items = L["categories"][category]
-
-   for word, desc in items.items():
+for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
         html = f"""
 <div style="
@@ -2684,5 +2683,4 @@ with col2:
 </div>
 """
         st.markdown(html, unsafe_allow_html=True)
-
 st.sidebar.write("Ichiryu龍 監修")
