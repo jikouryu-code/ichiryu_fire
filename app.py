@@ -2677,14 +2677,25 @@ for word, desc in items.items():
     margin-bottom: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 ">
-    <div style="font-size:18px; font-weight:bold;">
-        {word}
-    </div>
+  <div style="font-size:18px; font-weight:bold;">
+    {word[0]} × {word[1]}
+</div>
     <div style="margin-top:6px; font-size:15px;">
         {desc}
     </div>
 </div>
 """
-        st.markdown(html, unsafe_allow_html=True)
+     st.markdown("""
+<style>
+div[role="radiogroup"] {
+    padding-left: 30px;
+}
+
+div[role="radiogroup"] label {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+</style>
+""", unsafe_allow_html=True)
 
 st.sidebar.write("Ichiryu龍 監修")
