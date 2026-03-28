@@ -2654,18 +2654,23 @@ L = DATA["JP"]
 # ===== UI =====
 search = st.text_input("🔍 調べたい言葉を入力（漢字・かなOK）")
 
-col1, col2 = st.columns([2, 5])
+# ===== サイドバー（カテゴリ）=====
+selected = st.sidebar.radio(
+    "📚 カテゴリ",
+    list(DATA["JP"]["categories"].keys())
+)
 
-with col1:
-    st.markdown("### カテゴリ")
-    category = st.radio("", list(L["categories"].keys()), label_visibility="collapsed")
+st.sidebar.markdown("---")
+st.sidebar.write("Ichiryu龍 監修")
 
-with col2:
-    st.markdown(f"# {L['title']}")
-    st.markdown(f"## {L['vol']}")
-    st.markdown(f"**{L['sub']}**")
+# ===== メイン表示 =====
+st.markdown(f"# {DATA['JP']['title']}")
+st.markdown(f"## {DATA['JP']['vol']}")
+st.markdown(f"**{DATA['JP']['sub']}**")
 
-    items = L["categories"][category]
+items = DATA["JP"]["categories"][selected]
+
+# ===== 表示ループ =====
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
@@ -2686,14 +2691,3 @@ for word, desc in items.items():
 </div>
 """
         st.markdown(html, unsafe_allow_html=True)
-
-
-# ===== サイドバー（カテゴリ）=====
-selected = st.sidebar.radio(
-    "📚 カテゴリ",
-    list(DATA["JP"]["categories"].keys())
-)
-
-st.sidebar.markdown("---")
-st.sidebar.write("Ichiryu龍 監修")
-items = DATA["JP"]["categories"][selected]
