@@ -2688,20 +2688,12 @@ for word, desc in items.items():
         st.markdown(html, unsafe_allow_html=True)
 
 
-# ===== ラジオボタンCSS（ループ外に置く！）=====
-st.markdown("""
-<style>
-div[role="radiogroup"] {
-    padding-left: 30px;
-}
+# ===== サイドバー（カテゴリ）=====
+selected = st.sidebar.radio(
+    "📚 カテゴリ",
+    list(DATA["JP"]["categories"].keys())
+)
 
-div[role="radiogroup"] label {
-    margin-bottom: 10px;
-    font-size: 15px;
-}
-</style>
-""", unsafe_allow_html=True)
-
-
-# ===== サイドバー =====
+st.sidebar.markdown("---")
 st.sidebar.write("Ichiryu龍 監修")
+items = DATA["JP"]["categories"][selected]
