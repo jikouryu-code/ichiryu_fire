@@ -2674,7 +2674,9 @@ items = DATA["JP"]["categories"][selected]
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-        html = f"""
+clean_desc = desc.replace("</div>", "")
+
+html = f"""
 <div style="
     background: rgba(255,255,255,0.8);
     padding: 16px;
@@ -2686,7 +2688,7 @@ for word, desc in items.items():
         {word[0]} × {word[1]}
     </div>
     <div style="margin-top:6px; font-size:15px;">
-        {desc}
+        {clean_desc}
     </div>
 </div>
 """
