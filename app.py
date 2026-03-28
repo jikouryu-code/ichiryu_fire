@@ -2665,23 +2665,24 @@ with col2:
 
     items = L["categories"][category]
 
-    for word, desc in items.items():
-        if search == "" or search in str(word) or search in desc:
-            st.markdown(f"""
-            <div style="
-                background: rgba(255,255,255,0.8);
-                padding: 16px;
-                border-radius: 12px;
-                margin-bottom: 12px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            ">
-                <div style="font-size:18px; font-weight:bold;">
-                    {word}
-                </div>
-                <div style="margin-top:6px; font-size:15px;">
-                    {desc}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+   for word, desc in items.items():
+    if search == "" or search in str(word) or search in desc:
+        html = f"""
+<div style="
+    background: rgba(255,255,255,0.8);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+">
+    <div style="font-size:18px; font-weight:bold;">
+        {word}
+    </div>
+    <div style="margin-top:6px; font-size:15px;">
+        {desc}
+    </div>
+</div>
+"""
+        st.markdown(html, unsafe_allow_html=True)
 
 st.sidebar.write("Ichiryu龍 監修")
