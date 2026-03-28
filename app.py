@@ -2674,9 +2674,9 @@ items = DATA["JP"]["categories"][selected]
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-clean_desc = desc.replace("</div>", "")
+        clean_desc = desc.replace("</div>", "")
 
-html = f"""
+        html = f"""
 <div style="
     background: rgba(255,255,255,0.8);
     padding: 16px;
