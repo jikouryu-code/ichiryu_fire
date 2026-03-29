@@ -2676,8 +2676,7 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-        # 🔥 HTMLタグを全部削除（最強）
-        clean_desc = re.sub(r"<.*?>", "", desc)
+        clean_desc = re.sub(r"</div\s*>", "", desc)
 
         html = f"""
 <div style="
@@ -2687,7 +2686,7 @@ for word, desc in items.items():
     margin-bottom: 14px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 ">
-    <div style="font-size:20px; font-weight:bold; margin-bottom:6px;">
+    <div style="font-size:20px; font-weight:bold;">
         {word[0]} × {word[1]}
     </div>
     <div style="margin-top:6px; font-size:15px; line-height:1.8;">
