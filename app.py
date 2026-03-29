@@ -2671,23 +2671,26 @@ st.markdown(f"**{DATA['JP']['sub']}**")
 items = DATA["JP"]["categories"][selected]
 
 # ===== 表示ループ =====
+import re
+
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-        clean_desc = desc.replace("</div>", "")
+        # 🔥 HTMLタグを全部削除（最強）
+        clean_desc = re.sub(r"<.*?>", "", desc)
 
         html = f"""
 <div style="
-    background: rgba(255,255,255,0.8);
-    padding: 16px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.85);
+    padding: 18px;
+    border-radius: 14px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 ">
-    <div style="font-size:18px; font-weight:bold;">
+    <div style="font-size:20px; font-weight:bold; margin-bottom:6px;">
         {word[0]} × {word[1]}
     </div>
-    <div style="margin-top:6px; font-size:15px;">
+    <div style="margin-top:6px; font-size:15px; line-height:1.8;">
         {clean_desc}
     </div>
 </div>
