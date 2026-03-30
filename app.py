@@ -2678,13 +2678,10 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
+        # ▼ここが超重要
         clean_desc = desc
-
-        # divタグ削除
         clean_desc = re.sub(r"<div.*?>", "", clean_desc)
         clean_desc = re.sub(r"</div>", "", clean_desc)
-
-        # 前後の空白整形
         clean_desc = clean_desc.strip()
 
         # ===== 表示カード =====
