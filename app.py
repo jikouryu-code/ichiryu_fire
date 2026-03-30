@@ -2669,22 +2669,21 @@ st.markdown(f"# {DATA['JP']['title']}")
 st.markdown(f"## {DATA['JP']['vol']}")
 st.markdown(f"**{DATA['JP']['sub']}**")
 
+# ===== データ取得 =====
 items = DATA["JP"]["categories"][selected]
 
-
-# ===== 表示ループ =====
 import re
 
+# ===== 表示ループ =====
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
+        # HTMLタグ削除
         clean_desc = desc
+        clean_desc = re.sub(r"<.*?>", "", clean_desc, flags=re.DOTALL)
+        clean_desc = clean_desc.strip()
 
-# HTMLタグ全部削除（これ最強）
-clean_desc = re.sub(r"<.*?>", "", clean_desc, flags=re.DOTALL)
-
-clean_desc = clean_desc.strip()
-
+        # ===== 表示カード =====
         html = f"""
 <div style="
     background: rgba(255,255,255,0.92);
@@ -2710,5 +2709,4 @@ clean_desc = clean_desc.strip()
     </div>
 </div>
 """
-
         st.markdown(html, unsafe_allow_html=True)
