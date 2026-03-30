@@ -2677,17 +2677,18 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
+        # 🔥① 元データ
         clean_desc = desc
 
-        # 🔥必要な部分だけ抽出（これが最強）
-        if "【" in clean_desc:
-            clean_desc = clean_desc.split("【", 1)[1]
-            clean_desc = "【" + clean_desc
+        # 🔥② 「【」から後ろだけ使う（ここが最重要）
+        start = clean_desc.find("【")
+        if start != -1:
+            clean_desc = clean_desc[start:]
 
-        # 🔥整形
+        # 🔥③ 空白整理
         clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
-        # ===== 表示 =====
+        # ===== 表示カード =====
         html = f"""
 <div style="
     background: rgba(255,255,255,0.9);
