@@ -2692,6 +2692,14 @@ for word, desc in items.items():
     margin-bottom: 18px;
     box-shadow: 0 8px 18px rgba(0,0,0,0.12);
 ">
+  html = f"""
+<div style="
+    background: rgba(255,255,255,0.92);
+    padding: 22px;
+    border-radius: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+">
     <div style="
         font-size:24px;
         font-weight:bold;
@@ -2700,7 +2708,14 @@ for word, desc in items.items():
         {word[0]} × {word[1]}
     </div>
 
- 
+    <div style="
+        font-size:15px;
+        line-height:2.0;
+        white-space: pre-line;
+    ">
+        {clean_desc}
+    </div>
 </div>
 """
-        st.markdown(html, unsafe_allow_html=True)
+
+st.markdown(html, unsafe_allow_html=True)
