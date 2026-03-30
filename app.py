@@ -2679,20 +2679,23 @@ for word, desc in items.items():
 
         clean_desc = desc
 
-        # 🔥1. 明らかにいらない部分を直接消す
-        clean_desc = clean_desc.replace("<div", "")
-        clean_desc = clean_desc.replace("</div>", "")
-        clean_desc = clean_desc.replace("style=", "")
+        # 🔥怪しい部分削除
+        clean_desc = clean_desc.replace('<div style="', "")
+        clean_desc = clean_desc.replace('">', "")
+        clean_desc = clean_desc.replace('</div>', "")
 
-        # 🔥2. <>で囲まれたもの全部削除
-        clean_desc = re.sub(r"<.*?>", "", clean_desc, flags=re.DOTALL)
+        # 🔥CSS削除
+        clean_desc = clean_desc.replace("font-size:15px;", "")
+        clean_desc = clean_desc.replace("line-height:1.9;", "")
+        clean_desc = clean_desc.replace("white-space: pre-line;", "")
 
-        # 🔥3. CSSの残骸削除
-        clean_desc = re.sub(r'".*?"', "", clean_desc)
+        # 🔥改行
+        clean_desc = clean_desc.replace("\n", " ")
 
-        # 🔥4. 空白整理
+        # 🔥空白整理
         clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
+        # 👇ここ同じ位置！！
         html = f"""
 <div style="
     background: rgba(255,255,255,0.9);
@@ -2701,6 +2704,7 @@ for word, desc in items.items():
     margin-bottom: 16px;
     box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 ">
+
     <div style="font-size:22px; font-weight:bold; margin-bottom:8px;">
         {word[0]} × {word[1]}
     </div>
