@@ -2679,11 +2679,14 @@ for word, desc in items.items():
 
         clean_desc = desc
 
-        # 🔥コードブロック除去
-        clean_desc = clean_desc.replace("```html", "").replace("```", "")
+        # 🔥改行つぶす
+        clean_desc = clean_desc.replace("\n", " ")
 
-        # 🔥HTML完全除去（改行対応）
-        clean_desc = re.sub(r"<.*?>", "", clean_desc, flags=re.DOTALL)
+        # 🔥HTMLタグ完全削除
+        clean_desc = re.sub(r"<.*?>", "", clean_desc)
+
+        # 🔥余分な空白削除
+        clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
         html = f"""
 <div style="
@@ -2693,22 +2696,13 @@ for word, desc in items.items():
     margin-bottom: 16px;
     box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 ">
-    <div style="
-        font-size:22px;
-        font-weight:bold;
-        margin-bottom:8px;
-    ">
+    <div style="font-size:22px; font-weight:bold; margin-bottom:8px;">
         {word[0]} × {word[1]}
     </div>
 
-    <div style="
-        font-size:15px;
-        line-height:1.9;
-        white-space: pre-line;
-    ">
+    <div style="font-size:15px; line-height:1.9; white-space: pre-line;">
         {clean_desc}
     </div>
 </div>
 """
-
         st.markdown(html, unsafe_allow_html=True)
