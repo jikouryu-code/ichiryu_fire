@@ -2680,7 +2680,8 @@ for word, desc in items.items():
 
         # HTMLタグ削除
         clean_desc = desc
-        clean_desc = re.sub(r"<.*?>", "", clean_desc, flags=re.DOTALL)
+        # 改行も含めて完全削除
+        clean_desc = re.sub(r"<[^>]+>", "", clean_desc)
         clean_desc = clean_desc.strip()
 
         # ===== 表示カード =====
