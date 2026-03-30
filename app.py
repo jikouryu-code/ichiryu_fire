@@ -2700,13 +2700,7 @@ for word, desc in items.items():
         {word[0]} × {word[1]}
     </div>
 
-    <div style="
-        font-size:15px;
-        line-height:2.0;
-        white-space: pre-line;
-    ">
-        {clean_desc}
-    </div>
+ 
 </div>
 """
         st.markdown(html, unsafe_allow_html=True)
