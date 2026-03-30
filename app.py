@@ -2695,6 +2695,18 @@ for word, desc in items.items():
         clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
         # ===== 表示カード =====
+import re
+
+# 🔥表示直前でクリーン
+clean_desc = desc
+
+clean_desc = re.sub(r"<[^>]+>", "", clean_desc)  # HTML削除
+
+# 🔥確認（←これ入れる）
+st.write("確認用👇")
+st.write(clean_desc)
+
+# ===== カード表示 =====
 html = f"""
 <div style="
     background: rgba(255,255,255,0.92);
@@ -2714,7 +2726,6 @@ html = f"""
     <div style="
         font-size:15px;
         line-height:2.0;
-        white-space: pre-line;
     ">
         {clean_desc}
     </div>
