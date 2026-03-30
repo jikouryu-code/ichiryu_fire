@@ -2678,7 +2678,12 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-        # HTMLタグ削除（完全版）
+        # 👇ここに追加🔥
+        if "<div" in desc:
+            st.write("⚠️HTML混入データ", word)
+            st.write(desc)
+
+        # HTML削除
         clean_desc = re.sub(r"<[\s\S]*?>", "", desc)
         clean_desc = clean_desc.strip()
         # ===== 表示カード =====
