@@ -2679,18 +2679,18 @@ for word, desc in items.items():
 
        clean_desc = desc
 
-# 🔥 divブロック丸ごと削除
-clean_desc = re.sub(r"<div.*?>", "", clean_desc)
-clean_desc = re.sub(r"</div>", "", clean_desc)
+       # 🔥 divブロック丸ごと削除
+       clean_desc = re.sub(r"<div.*?>", "", clean_desc)
+       clean_desc = re.sub(r"</div>", "", clean_desc)
 
-# 🔥 残骸（styleとか）も削除
-clean_desc = re.sub(r"style=.*?\"", "", clean_desc)
+       # 🔥 残骸（styleとか）も削除
+       clean_desc = re.sub(r"style=.*?\"", "", clean_desc)
 
-# 🔥 念のためHTMLタグ全部削除
-clean_desc = re.sub(r"<.*?>", "", clean_desc)
+       # 🔥 念のためHTMLタグ全部削除
+       clean_desc = re.sub(r"<.*?>", "", clean_desc)
 
-# 🔥 余計な空白整理
-clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
+       # 🔥 余計な空白整理
+       clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
         html = f"""
 <div style="
