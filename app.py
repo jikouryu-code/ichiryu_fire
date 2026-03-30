@@ -1,3 +1,4 @@
+
 import streamlit as st
 import base64
 
@@ -343,9 +344,9 @@ DATA = {
 
 【総合メッセージ】
 「育てた自分が未来を作る。」
-"""
-}
-            "劫財": {
+""",
+},
+"劫財": {
 
 ("劫財","長生"): """【劫財 × 長生】
 この年は、行動力と競争心が芽生え、自分の力で道を切り開くスタートの年です。
@@ -598,8 +599,8 @@ DATA = {
 
 【総合メッセージ】
 「育てた力が未来を変える。」
-"""
-}
+""",
+},
 
 "食神": {
 
@@ -854,8 +855,8 @@ DATA = {
 
 【総合メッセージ】
 「育てた幸せが人生を支える。」
-"""
-}
+""",
+},
 "傷官": {
 
 ("傷官","長生"): """【傷官 × 長生】
@@ -1109,8 +1110,8 @@ DATA = {
 
 【総合メッセージ】
 「育てた表現が未来を変える。」
-"""
-}
+""",
+},
 "正財": {
 
 ("正財","長生"): """【正財 × 長生】
@@ -1364,8 +1365,8 @@ DATA = {
 
 【総合メッセージ】
 「育てたものが未来を支える。」
-"""
-}
+""",
+},
 "偏財": {
 
 ("偏財","長生"): """【偏財 × 長生】
@@ -1619,8 +1620,8 @@ DATA = {
 
 【総合メッセージ】
 「土台が豊かさを育てる。」
-"""
-}
+""",
+},
 "正官": {
 
 ("正官","長生"): """【正官 × 長生】
@@ -1874,8 +1875,8 @@ DATA = {
 
 【総合メッセージ】
 「土台が強ければ崩れない。」
-"""
-}
+""",
+},
 "偏官": {
 
 ("偏官","長生"): """【偏官 × 長生】
@@ -2129,8 +2130,8 @@ DATA = {
 
 【総合メッセージ】
 「育てた力が未来を動かす。」
-"""
-}
+""",
+},
     "偏印": {
     
 
@@ -2386,9 +2387,9 @@ DATA = {
 基礎をしっかり固める。
 
 【総合メッセージ】
-「育てたものが未来になる。」
-"""
-    }
+育てたものが未来になる。
+""",
+},
 
     "印綬": {
         ("印綬","長生"): """【印綬 × 長生】
@@ -2625,7 +2626,7 @@ DATA = {
 「まだ見えない可能性を信じる。」
 """,
 
-        ("印綬","養"): """【印綬 × 養】
+("印綬","養"): """【印綬 × 養】
 この年は、自分の内面を育て、基礎を整える大切な時期です。
 
 【この年のテーマ】
@@ -2644,47 +2645,92 @@ DATA = {
 
 【総合メッセージ】
 「育てた知恵が未来を支える。」
-"""
-                }
-            }
+""",
+}
         }
-    
-
+    }
+}
 L = DATA["JP"]
 
 # ===== UI =====
 search = st.text_input("🔍 調べたい言葉を入力（漢字・かなOK）")
 
-col1, col2 = st.columns([2, 5])
+# ===== サイドバー（カテゴリ）=====
+selected = st.sidebar.radio(
+    "📚 カテゴリ",
+    list(DATA["JP"]["categories"].keys())
+)
 
-with col1:
-    st.markdown("### カテゴリ")
-    category = st.radio("", list(L["categories"].keys()), label_visibility="collapsed")
-
-with col2:
-    st.markdown(f"# {L['title']}")
-    st.markdown(f"## {L['vol']}")
-    st.markdown(f"**{L['sub']}**")
-
-    items = L["categories"][category]
-
-    for word, desc in items.items():
-        if search == "" or search in str(word) or search in desc:
-            st.markdown(f"""
-            <div style="
-                background: rgba(255,255,255,0.8);
-                padding: 16px;
-                border-radius: 12px;
-                margin-bottom: 12px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            ">
-                <div style="font-size:18px; font-weight:bold;">
-                    {word}
-                </div>
-                <div style="margin-top:6px; font-size:15px;">
-                    {desc}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
+st.sidebar.markdown("---")
 st.sidebar.write("Ichiryu龍 監修")
+
+# ===== メイン表示 =====
+st.markdown(f"# {DATA['JP']['title']}")
+st.markdown(f"## {DATA['JP']['vol']}")
+st.markdown(f"**{DATA['JP']['sub']}**")
+
+items = DATA["JP"]["categories"][selected]
+
+
+# ===== 表示ループ =====
+import re
+
+for word, desc in items.items():
+    if search == "" or search in str(word) or search in desc:
+
+        # 🔥① 元データ
+        clean_desc = desc
+
+        # 🔥② HTMLタグを全部削除
+        clean_desc = re.sub(r"<[^>]+>", "", clean_desc)
+
+        # 🔥③ 【から後ろだけ使う
+        start = clean_desc.find("【")
+        if start != -1:
+            clean_desc = clean_desc[start:]
+
+        # 🔥④ 改行 → スペース
+        clean_desc = clean_desc.replace("\n", " ")
+
+        # 🔥⑤ 空白整理
+        clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
+
+        # ===== 表示カード =====
+import re
+
+# 🔥表示直前でクリーン
+clean_desc = desc
+
+clean_desc = re.sub(r"<[^>]+>", "", clean_desc)  # HTML削除
+
+# 🔥確認（←これ入れる）
+st.write("確認用👇")
+st.write(clean_desc)
+
+# ===== カード表示 =====
+html = f"""
+<div style="
+    background: rgba(255,255,255,0.92);
+    padding: 22px;
+    border-radius: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+">
+    <div style="
+        font-size:24px;
+        font-weight:bold;
+        margin-bottom:12px;
+    ">
+        {word[0]} × {word[1]}
+    </div>
+
+    <div style="
+        font-size:15px;
+        line-height:2.0;
+    ">
+        {clean_desc}
+    </div>
+</div>
+"""
+
+st.markdown(html, unsafe_allow_html=True)
