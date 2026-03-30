@@ -2677,11 +2677,8 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-        # 🔥デバッグ（あとで消してOK）
-        st.write(desc)
-
-        # 🔥HTMLタグ完全除去（確実版）
-        clean_desc = re.sub(r"</?div.*?>", "", desc)
+        # 🔥HTML完全除去
+        clean_desc = re.sub(r"<[^>]+>", "", desc)
 
         html = f"""
 <div style="
