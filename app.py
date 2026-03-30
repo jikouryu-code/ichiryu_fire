@@ -2676,7 +2676,7 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-        clean_desc = re.sub(r"<.*?>", "", desc)
+       clean_desc = desc
 
         html = f"""
 <div style="
