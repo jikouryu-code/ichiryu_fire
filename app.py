@@ -2679,14 +2679,21 @@ for word, desc in items.items():
 
         clean_desc = desc
 
-        # 🔥 div削除
-        clean_desc = re.sub(r"<div.*?>", "", clean_desc)
-        clean_desc = re.sub(r"</div>", "", clean_desc)
-        clean_desc = re.sub(r"style=.*?\"", "", clean_desc)
-        clean_desc = re.sub(r"<.*?>", "", clean_desc)
+        # 🔥1. 明らかにいらない部分を直接消す
+        clean_desc = clean_desc.replace("<div", "")
+        clean_desc = clean_desc.replace("</div>", "")
+        clean_desc = clean_desc.replace("style=", "")
+
+        # 🔥2. <>で囲まれたもの全部削除
+        clean_desc = re.sub(r"<.*?>", "", clean_desc, flags=re.DOTALL)
+
+        # 🔥3. CSSの残骸削除
+        clean_desc = re.sub(r'".*?"', "", clean_desc)
+
+        # 🔥4. 空白整理
         clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
-        html = f"""   ← ✅ここ揃える
+        html = f"""
 <div style="
     background: rgba(255,255,255,0.9);
     padding: 20px;
