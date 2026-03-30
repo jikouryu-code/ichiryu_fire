@@ -2677,28 +2677,24 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
+        # 🔥① 元データ
         clean_desc = desc
 
-        # 🔥① divっぽいもの全部削除（雑でOK）
-        clean_desc = clean_desc.replace("<div", "")
-        clean_desc = clean_desc.replace("</div>", "")
+        # 🔥② HTMLタグを全部削除
+        clean_desc = re.sub(r"<[^>]+>", "", clean_desc)
 
-        # 🔥② CSS部分削除
-        clean_desc = clean_desc.replace("font-size:15px;", "")
-        clean_desc = clean_desc.replace("line-height:2.0;", "")
-        clean_desc = clean_desc.replace("white-space: pre-line;", "")
+        # 🔥③ 【から後ろだけ使う
+        start = clean_desc.find("【")
+        if start != -1:
+            clean_desc = clean_desc[start:]
 
-        # 🔥③ 記号削除
-        clean_desc = clean_desc.replace('style="', "")
-        clean_desc = clean_desc.replace('">', "")
-
-        # 🔥④ 改行削除
+        # 🔥④ 改行 → スペース
         clean_desc = clean_desc.replace("\n", " ")
 
         # 🔥⑤ 空白整理
         clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
-        # ===== 表示 =====
+        # ===== 表示カード =====
         html = f"""
 <div style="
     background: rgba(255,255,255,0.92);
@@ -2707,11 +2703,19 @@ for word, desc in items.items():
     margin-bottom: 18px;
     box-shadow: 0 8px 18px rgba(0,0,0,0.12);
 ">
-    <div style="font-size:24px; font-weight:bold; margin-bottom:12px;">
+    <div style="
+        font-size:24px;
+        font-weight:bold;
+        margin-bottom:12px;
+    ">
         {word[0]} × {word[1]}
     </div>
 
-    <div style="font-size:15px; line-height:2.0;">
+    <div style="
+        font-size:15px;
+        line-height:2.0;
+        white-space: pre-line;
+    ">
         {clean_desc}
     </div>
 </div>
