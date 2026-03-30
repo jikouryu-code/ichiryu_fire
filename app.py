@@ -2676,7 +2676,8 @@ import re
 
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
-
+# 👇これ追加（ここ！！）
+        st.write(desc)
         clean_desc = desc
 
         # 🔥 divブロック丸ごと削除（最重要）
