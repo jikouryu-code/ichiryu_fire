@@ -2677,41 +2677,46 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-        # 🔥① 元データ
         clean_desc = desc
 
-        # 🔥② 「【」から後ろだけ使う（ここが最重要）
+        # 🔥① 【から後ろだけ使う（これが本質）
         start = clean_desc.find("【")
         if start != -1:
             clean_desc = clean_desc[start:]
+        else:
+            # 万が一【が無い場合
+            clean_desc = clean_desc
 
-        # 🔥③ 空白整理
+        # 🔥② 空白整理（改行も整える）
+        clean_desc = clean_desc.replace("\n", " ")
         clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
         # ===== 表示カード =====
         html = f"""
 <div style="
-    background: rgba(255,255,255,0.9);
-    padding: 20px;
-    border-radius: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    background: rgba(255,255,255,0.92);
+    padding: 22px;
+    border-radius: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
 ">
     <div style="
-        font-size:22px;
+        font-size:24px;
         font-weight:bold;
-        margin-bottom:10px;
+        margin-bottom:12px;
+        letter-spacing:1px;
     ">
         {word[0]} × {word[1]}
     </div>
 
     <div style="
         font-size:15px;
-        line-height:1.9;
+        line-height:2.0;
         white-space: pre-line;
     ">
         {clean_desc}
     </div>
 </div>
 """
+
         st.markdown(html, unsafe_allow_html=True)
