@@ -2676,44 +2676,18 @@ import re
 
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
-# 👇これ追加（ここ！！）
-        st.write(desc)
+
         clean_desc = desc
 
-        # 🔥 divブロック丸ごと削除（最重要）
-        lines = clean_desc.split("\n")
+        # 🔥必要な部分だけ抽出（これが最強）
+        if "【" in clean_desc:
+            clean_desc = clean_desc.split("【", 1)[1]
+            clean_desc = "【" + clean_desc
 
-        filtered = []
-        skip = False
-
-        for line in lines:
-
-            # 🔥開始タグ検知
-            if "<div" in line:
-                skip = True
-                continue
-
-            # 🔥終了検知（styleブロック終わり）
-            if ">" in line and skip:
-                skip = False
-                continue
-
-            # 🔥スキップ中は全部削除
-            if skip:
-                continue
-
-            # 🔥閉じタグ削除
-            if "</div>" in line:
-                continue
-
-            filtered.append(line)
-
-        clean_desc = " ".join(filtered)
-
-        # 🔥空白整理
+        # 🔥整形
         clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
-        # ===== 表示カード =====
+        # ===== 表示 =====
         html = f"""
 <div style="
     background: rgba(255,255,255,0.9);
@@ -2739,5 +2713,4 @@ for word, desc in items.items():
     </div>
 </div>
 """
-
         st.markdown(html, unsafe_allow_html=True)
