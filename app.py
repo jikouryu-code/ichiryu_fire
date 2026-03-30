@@ -2695,7 +2695,7 @@ for word, desc in items.items():
         clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
         # ===== 表示カード =====
-        html = f"""
+html = f"""
 <div style="
     background: rgba(255,255,255,0.92);
     padding: 22px;
@@ -2720,4 +2720,5 @@ for word, desc in items.items():
     </div>
 </div>
 """
-        st.markdown(html, unsafe_allow_html=True)
+
+st.markdown(html, unsafe_allow_html=True)
