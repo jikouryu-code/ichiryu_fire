@@ -2675,39 +2675,16 @@ items = DATA["JP"]["categories"][selected]
 # ===== 表示ループ =====
 import re
 
-for word, desc in items.items():
-    if search == "" or search in str(word) or search in desc:
-
-        # 🔥① 元データ
-        clean_desc = desc
-
-        # 🔥② HTMLタグを全部削除
-        clean_desc = re.sub(r"<[^>]+>", "", clean_desc)
-
-        # 🔥③ 【から後ろだけ使う
-        start = clean_desc.find("【")
-        if start != -1:
-            clean_desc = clean_desc[start:]
-
-        # 🔥④ 改行 → スペース
-        clean_desc = clean_desc.replace("\n", " ")
-
-        # 🔥⑤ 空白整理
-        clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
-
-        # ===== 表示カード =====
-import re
-
-# 🔥表示直前でクリーン
 clean_desc = desc
 
-clean_desc = re.sub(r"<[^>]+>", "", clean_desc)  # HTML削除
+# divタグ削除
+clean_desc = re.sub(r"<div.*?>", "", clean_desc)
+clean_desc = re.sub(r"</div>", "", clean_desc)
 
-# 🔥確認（←これ入れる）
-st.write("確認用👇")
-st.write(clean_desc)
+# 前後の空白整形
+clean_desc = clean_desc.strip()
 
-# ===== カード表示 =====
+# ===== 表示カード =====
 html = f"""
 <div style="
     background: rgba(255,255,255,0.92);
@@ -2727,6 +2704,7 @@ html = f"""
     <div style="
         font-size:15px;
         line-height:2.0;
+        white-space: pre-line;
     ">
         {clean_desc}
     </div>
