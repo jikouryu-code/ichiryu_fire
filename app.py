@@ -2680,10 +2680,9 @@ for word, desc in items.items():
 
         # ▼ここが超重要
         clean_desc = desc
-        clean_desc = re.sub(r"<div.*?>", "", clean_desc)
-        clean_desc = re.sub(r"</div>", "", clean_desc)
-        clean_desc = clean_desc.strip()
-
+       clean_desc = re.sub(r"<div.*?>", "", clean_desc, flags=re.DOTALL)
+clean_desc = re.sub(r"</div>", "", clean_desc)
+clean_desc = re.sub(r"\s+$", "", clean_desc)
         # ===== 表示カード =====
         html = f"""
 <div style="
