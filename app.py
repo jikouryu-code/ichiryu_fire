@@ -2678,11 +2678,8 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-        # HTMLタグ削除
-        clean_desc = desc
-        # 改行含めてタグ削除（最強版）
+        # HTMLタグ削除（完全版）
         clean_desc = re.sub(r"<[\s\S]*?>", "", desc)
-        clean_desc = clean_desc.replace("</div>", "")
         clean_desc = clean_desc.strip()
         # ===== 表示カード =====
         html = f"""
