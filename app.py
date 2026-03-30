@@ -2677,16 +2677,18 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-        # 🔥① 元データ
-        clean_desc = desc
+        # 🔥① divの中身だけ取り出す（これが最強）
+        match = re.search(r"<div[^>]*>(.*?)</div>", desc, re.DOTALL)
 
-        # 🔥② HTMLタグを全部削除（改行も対応）
-        clean_desc = re.sub(r"<[^>]+>", "", clean_desc, flags=re.DOTALL)
+        if match:
+            clean_desc = match.group(1)
+        else:
+            clean_desc = desc
 
-        # 🔥③ 改行 → スペース
+        # 🔥② 改行整理
         clean_desc = clean_desc.replace("\n", " ")
 
-        # 🔥④ 空白整理
+        # 🔥③ 空白整理
         clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
         # ===== 表示カード =====
