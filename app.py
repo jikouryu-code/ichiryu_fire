@@ -2684,14 +2684,6 @@ for word, desc in items.items():
         clean_desc = re.sub(r"</div>", "", clean_desc)
         clean_desc = re.sub(r"\s+$", "", clean_desc)
         # ===== 表示カード =====
-        html = f"""
-<div style="
-    background: rgba(255,255,255,0.92);
-    padding: 22px;
-    border-radius: 18px;
-    margin-bottom: 18px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
-">
   html = f"""
 <div style="
     background: rgba(255,255,255,0.92);
