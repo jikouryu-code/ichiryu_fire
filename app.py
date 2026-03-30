@@ -2678,13 +2678,9 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-        # ▼ここが超重要
         clean_desc = desc
-        clean_desc = re.sub(r"<div.*?>", "", clean_desc, flags=re.DOTALL)
-        clean_desc = re.sub(r"</div>", "", clean_desc)
-        clean_desc = re.sub(r"\s+$", "", clean_desc)
-        # ===== 表示カード =====
-  html = f"""
+
+        html = f"""
 <div style="
     background: rgba(255,255,255,0.92);
     padding: 22px;
@@ -2710,4 +2706,4 @@ for word, desc in items.items():
 </div>
 """
 
-st.markdown(html, unsafe_allow_html=True)
+        st.markdown(html, unsafe_allow_html=True)
