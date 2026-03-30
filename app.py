@@ -2677,32 +2677,32 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-       clean_desc = desc
+        clean_desc = desc
 
-# 🔥1行ずつ処理
-lines = clean_desc.split("\n")
+        # 🔥行ごと削除
+        lines = clean_desc.split("\n")
 
-filtered = []
-for line in lines:
-    if "<div" in line:
-        continue
-    if "</div>" in line:
-        continue
-    if "font-size" in line:
-        continue
-    if "line-height" in line:
-        continue
-    if "white-space" in line:
-        continue
+        filtered = []
+        for line in lines:
+            if "<div" in line:
+                continue
+            if "</div>" in line:
+                continue
+            if "font-size" in line:
+                continue
+            if "line-height" in line:
+                continue
+            if "white-space" in line:
+                continue
 
-    filtered.append(line)
+            filtered.append(line)
 
-clean_desc = " ".join(filtered)
+        clean_desc = " ".join(filtered)
 
-# 🔥空白整理
-clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
+        # 🔥空白整理
+        clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
-        # 👇ここ同じ位置！！
+        # 👇ここ重要（同じ段！）
         html = f"""
 <div style="
     background: rgba(255,255,255,0.9);
@@ -2711,7 +2711,6 @@ clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
     margin-bottom: 16px;
     box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 ">
-
     <div style="font-size:22px; font-weight:bold; margin-bottom:8px;">
         {word[0]} × {word[1]}
     </div>
