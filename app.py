@@ -2677,23 +2677,30 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
-        clean_desc = desc
+       clean_desc = desc
 
-        # 🔥怪しい部分削除
-        clean_desc = clean_desc.replace('<div style="', "")
-        clean_desc = clean_desc.replace('">', "")
-        clean_desc = clean_desc.replace('</div>', "")
+# 🔥1行ずつ処理
+lines = clean_desc.split("\n")
 
-        # 🔥CSS削除
-        clean_desc = clean_desc.replace("font-size:15px;", "")
-        clean_desc = clean_desc.replace("line-height:1.9;", "")
-        clean_desc = clean_desc.replace("white-space: pre-line;", "")
+filtered = []
+for line in lines:
+    if "<div" in line:
+        continue
+    if "</div>" in line:
+        continue
+    if "font-size" in line:
+        continue
+    if "line-height" in line:
+        continue
+    if "white-space" in line:
+        continue
 
-        # 🔥改行
-        clean_desc = clean_desc.replace("\n", " ")
+    filtered.append(line)
 
-        # 🔥空白整理
-        clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
+clean_desc = " ".join(filtered)
+
+# 🔥空白整理
+clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
         # 👇ここ同じ位置！！
         html = f"""
