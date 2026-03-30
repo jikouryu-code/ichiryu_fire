@@ -2679,14 +2679,11 @@ for word, desc in items.items():
 
         clean_desc = desc
 
-        # 🔥改行つぶす
-        clean_desc = clean_desc.replace("\n", " ")
+        # 🔥 HTML完全削除（最強版）
+        clean_desc = re.sub(r"<[^>]*>", "", clean_desc)
 
-        # 🔥HTMLタグ完全削除
-        clean_desc = re.sub(r"<.*?>", "", clean_desc)
-
-        # 🔥余分な空白削除
-        clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
+        # 🔥 改行そのまま活かす
+        clean_desc = clean_desc.strip()
 
         html = f"""
 <div style="
@@ -2700,7 +2697,11 @@ for word, desc in items.items():
         {word[0]} × {word[1]}
     </div>
 
-    <div style="font-size:15px; line-height:1.9; white-space: pre-line;">
+    <div style="
+        font-size:15px;
+        line-height:1.9;
+        white-space: pre-line;
+    ">
         {clean_desc}
     </div>
 </div>
