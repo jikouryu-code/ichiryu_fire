@@ -2675,17 +2675,20 @@ items = DATA["JP"]["categories"][selected]
 # ===== 表示ループ =====
 import re
 
-clean_desc = desc
+for word, desc in items.items():
+    if search == "" or search in str(word) or search in desc:
 
-# divタグ削除
-clean_desc = re.sub(r"<div.*?>", "", clean_desc)
-clean_desc = re.sub(r"</div>", "", clean_desc)
+        clean_desc = desc
 
-# 前後の空白整形
-clean_desc = clean_desc.strip()
+        # divタグ削除
+        clean_desc = re.sub(r"<div.*?>", "", clean_desc)
+        clean_desc = re.sub(r"</div>", "", clean_desc)
 
-# ===== 表示カード =====
-html = f"""
+        # 前後の空白整形
+        clean_desc = clean_desc.strip()
+
+        # ===== 表示カード =====
+        html = f"""
 <div style="
     background: rgba(255,255,255,0.92);
     padding: 22px;
@@ -2710,5 +2713,4 @@ html = f"""
     </div>
 </div>
 """
-
-st.markdown(html, unsafe_allow_html=True)
+        st.markdown(html, unsafe_allow_html=True)
