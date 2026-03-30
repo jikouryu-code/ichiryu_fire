@@ -2678,15 +2678,15 @@ import re
 for word, desc in items.items():
     if search == "" or search in str(word) or search in desc:
 
- clean_desc = desc
+        clean_desc = desc
 
-# divごと削除（最強）
-clean_desc = re.sub(r"<div[\s\S]*?</div>", "", clean_desc)
+        # divごと削除（最強）
+        clean_desc = re.sub(r"<div[\s\S]*?</div>", "", clean_desc)
 
-# 残りのタグ削除
-clean_desc = re.sub(r"<[^>]+>", "", clean_desc)
+        # 残りのタグ削除
+        clean_desc = re.sub(r"<[^>]+>", "", clean_desc)
 
-clean_desc = clean_desc.strip()
+        clean_desc = clean_desc.strip()
         # ===== 表示カード =====
         html = f"""
 <div style="
