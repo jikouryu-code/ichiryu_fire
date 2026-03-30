@@ -2679,20 +2679,30 @@ for word, desc in items.items():
 
         clean_desc = desc
 
-        # 🔥行ごと削除
+        # 🔥 divブロック丸ごと削除（最重要）
         lines = clean_desc.split("\n")
 
         filtered = []
+        skip = False
+
         for line in lines:
+
+            # 🔥開始タグ検知
             if "<div" in line:
+                skip = True
                 continue
+
+            # 🔥終了検知（styleブロック終わり）
+            if ">" in line and skip:
+                skip = False
+                continue
+
+            # 🔥スキップ中は全部削除
+            if skip:
+                continue
+
+            # 🔥閉じタグ削除
             if "</div>" in line:
-                continue
-            if "font-size" in line:
-                continue
-            if "line-height" in line:
-                continue
-            if "white-space" in line:
                 continue
 
             filtered.append(line)
@@ -2702,7 +2712,7 @@ for word, desc in items.items():
         # 🔥空白整理
         clean_desc = re.sub(r"\s+", " ", clean_desc).strip()
 
-        # 👇ここ重要（同じ段！）
+        # ===== 表示カード =====
         html = f"""
 <div style="
     background: rgba(255,255,255,0.9);
@@ -2711,7 +2721,11 @@ for word, desc in items.items():
     margin-bottom: 16px;
     box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 ">
-    <div style="font-size:22px; font-weight:bold; margin-bottom:8px;">
+    <div style="
+        font-size:22px;
+        font-weight:bold;
+        margin-bottom:10px;
+    ">
         {word[0]} × {word[1]}
     </div>
 
