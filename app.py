@@ -2657,33 +2657,32 @@ DATA = {
 L = DATA["JP"]
 
 # ===== UI =====
+# 🌟 左のサイドバー（グレーのエリア）に配置
+st.sidebar.markdown("### カテゴリ")
+category = st.sidebar.radio("", list(L["categories"].keys()), label_visibility="collapsed")
+st.sidebar.write("---")
+st.sidebar.write("Ichiryu龍 監修")
+
+# 🌟 メイン画面（右側の広いエリア）
 search = st.text_input("🔍 調べたい言葉を入力（漢字・かなOK）")
 
-col1, col2 = st.columns([2, 5])
+st.markdown(f"# {L['title']}")
+st.markdown(f"## {L['vol']}")
+st.markdown(f"**{L['sub']}**")
 
-with col1:
-    st.markdown("### カテゴリ")
-    category = st.radio("", list(L["categories"].keys()), label_visibility="collapsed")
+items = L["categories"][category]
 
-with col2:
-    st.markdown(f"# {L['title']}")
-    st.markdown(f"## {L['vol']}")
-    st.markdown(f"**{L['sub']}**")
+for word_tuple, desc in items.items():
+    word_str = f"{word_tuple[0]} × {word_tuple[1]}"
 
-    items = L["categories"][category]
+    # 検索フィルター
+    if search and search not in word_str and search not in desc:
+        continue
 
-    for word_tuple, desc in items.items():
-        word_str = f"{word_tuple[0]} × {word_tuple[1]}"
+    clean_desc = re.sub(r"<.*?>", "", desc, flags=re.DOTALL).strip()
 
-        if search and search not in word_str and search not in desc:
-            continue
-
-        clean_desc = re.sub(r"<.*?>", "", desc, flags=re.DOTALL).strip()
-
-        # 🚨ここが原因でした！Markdownがコードブロックと誤認しないよう、左端に詰めて書きます。
-        st.markdown(f"""<div style="background:rgba(255,255,255,0.8); padding:16px; border-radius:12px; margin-bottom:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    # 🚨 Markdownのコードブロック化を防ぐため、一番左に詰めて記述しています
+    st.markdown(f"""<div style="background:rgba(255,255,255,0.8); padding:16px; border-radius:12px; margin-bottom:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 <div style="font-size:18px; font-weight:bold;">{word_str}</div>
 <div style="margin-top:6px; font-size:15px; line-height:1.8; white-space:pre-line;">{clean_desc}</div>
 </div>""", unsafe_allow_html=True)
-
-st.sidebar.write("Ichiryu龍 監修")
