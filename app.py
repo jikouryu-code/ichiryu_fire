@@ -2655,62 +2655,31 @@ L = DATA["JP"]
 # ===== UI =====
 search = st.text_input("🔍 調べたい言葉を入力（漢字・かなOK）")
 
-# ===== サイドバー（カテゴリ）=====
-selected = st.sidebar.radio(
-    "📚 カテゴリ",
-    list(DATA["JP"]["categories"].keys())
-)
+col1, col2 = st.columns([2, 5])
 
-st.sidebar.markdown("---")
+with col1:
+    st.markdown("### カテゴリ")
+    category = st.radio("", list(L["categories"].keys()), label_visibility="collapsed")
+
+with col2:
+    st.markdown(f"# {L['title']}")
+    st.markdown(f"## {L['vol']}")
+    st.markdown(f"**{L['sub']}**")
+
+    items = L["categories"][category]
+
+    for word_tuple, desc in items.items():
+        word_str = f"{word_tuple[0]} × {word_tuple[1]}"
+
+        if search and search not in word_str and search not in desc:
+            continue
+
+        clean_desc = re.sub(r"<.*?>", "", desc, flags=re.DOTALL).strip()
+
+        # 🚨ここが原因でした！Markdownがコードブロックと誤認しないよう、左端に詰めて書きます。
+        st.markdown(f"""<div style="background:rgba(255,255,255,0.8); padding:16px; border-radius:12px; margin-bottom:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+<div style="font-size:18px; font-weight:bold;">{word_str}</div>
+<div style="margin-top:6px; font-size:15px; line-height:1.8; white-space:pre-line;">{clean_desc}</div>
+</div>""", unsafe_allow_html=True)
+
 st.sidebar.write("Ichiryu龍 監修")
-
-# ===== メイン表示 =====
-st.markdown(f"# {DATA['JP']['title']}")
-st.markdown(f"## {DATA['JP']['vol']}")
-st.markdown(f"**{DATA['JP']['sub']}**")
-
-# ===== データ取得 =====
-items = DATA["JP"]["categories"][selected]
-
-import re
-
-# ===== 表示ループ =====
-for word, desc in items.items():
-    if search == "" or search in str(word) or search in desc:
-
-        clean_desc = desc
-
-        # divごと削除（最強）
-        clean_desc = re.sub(r"<div[\s\S]*?</div>", "", clean_desc)
-
-        # 残りのタグ削除
-        clean_desc = re.sub(r"<[^>]+>", "", clean_desc)
-
-        clean_desc = clean_desc.strip()
-        # ===== 表示カード =====
-        html = f"""
-<div style="
-    background: rgba(255,255,255,0.92);
-    padding: 22px;
-    border-radius: 18px;
-    margin-bottom: 18px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
-">
-    <div style="
-        font-size:24px;
-        font-weight:bold;
-        margin-bottom:12px;
-    ">
-        {word[0]} × {word[1]}
-    </div>
-
-    <div style="
-        font-size:15px;
-        line-height:2.0;
-        white-space: pre-line;
-    ">
-        {clean_desc}
-    </div>
-</div>
-"""
-        st.markdown(html, unsafe_allow_html=True)
