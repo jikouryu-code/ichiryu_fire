@@ -1,6 +1,10 @@
 
 import streamlit as st
 import base64
+import re  # 🚨 ← この1行を追加するだけです！
+
+# ===== 🔐 パスワード =====
+PASSWORD = "fire2026"
 
 # ===== 🔐 パスワード =====
 PASSWORD = "fire2026"
